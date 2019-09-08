@@ -22,6 +22,7 @@ public class Main {
         // Default Animals, as left in the program in class.
 
         Scanner kb = new Scanner(System.in);
+        InputTypeVerifier Temp = new InputTypeVerifier();
         String name = "";
         String input;
         int age;
@@ -31,6 +32,7 @@ public class Main {
         Input enterText = new Input();
         // Initialization of fields which will characterize objects/entries into the array
         boolean Loop = true;
+        boolean badInput = false;
         // Control variable to indicate whether the sentinel value has been entered
         do{
             System.out.println("Please Enter Name of Pet: (Enter NA to stop adding)");
@@ -38,28 +40,40 @@ public class Main {
 
             if(name.equals("NA"))
                 Loop = false;
-            else{
-                petType = enterText.petSwitch("Is this a (S)tudent, (C)at, or (D)og?", 'S', 99);
-                switch (petType)
-                {
-                    case 's':
-                    case 'S':
-                        age = enterText.verifyInt("What is the Student's Age?", 18, 99);
-                        zoo.add(new Student(age, name));
-                        break;
+            else
+            {
+                do {
+                    badInput = false;
+                    try
+                    {
+                        petType = enterText.petSwitch("Is "+name+" a (S)tudent, (C)at, or (D)og?", 'S', 99);
+                        InputTypeVerifier ITV = new InputTypeVerifier(petType, name);
 
-                    case 'c':
-                    case 'C':
-                        mice = enterText.verifyInt("How many mice has the cat killed?", 0, 99);
-                        zoo.add(new Cat(mice, name));
-                        break;
+                        switch (petType)
+                        {
+                            case 's':
+                            case 'S':
 
-                    case 'd':
-                    case 'D':
-                        friendly = enterText.verifyYesNo("Is the Dog Friendly?", true, 99);
-                        zoo.add(new Dog(friendly, name));
-                        break;
-                }
+                                zoo.add(new Student(ITV.getNum(), name));
+                                break;
+
+                            case 'c':
+                            case 'C':
+                                zoo.add(new Cat(ITV.getNum(), name));
+                                break;
+
+                            case 'd':
+                            case 'D':
+                                zoo.add(new Dog(ITV.isYesNo(), name));
+                                break;
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        badInput = true;
+                    }
+                }while (badInput);
+
             }
         }while(Loop);
         // End Lines to Replace

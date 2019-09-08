@@ -11,12 +11,17 @@ public class InputTypeVerifier
     boolean yesNo;
     String input;
 
-    public InputTypeVerifier(char petType, String prompt)
+    public InputTypeVerifier()
     {
-        if(petType == 's' || petType == 'S' || petType == 'c'|| petType == 'C')
+
+    }
+
+    public InputTypeVerifier(char petType, String Name)
+    {
+        if(petType == 's' || petType == 'S')
         {
             try {
-                System.out.println(prompt);
+                System.out.println("What is the "+Name+"'s Age?");
                 num = Integer.parseInt(kb.nextLine());
             }
             catch(Exception e)
@@ -24,9 +29,21 @@ public class InputTypeVerifier
                 throw new IllegalArgumentException("This is not an int");
             }
         }
+        else if(petType == 'c'|| petType == 'C')
+        {
+            try {
+                System.out.println("How many mice has "+Name+" killed?");
+                num = Integer.parseInt(kb.nextLine());
+            }
+            catch(Exception e)
+            {
+                throw new IllegalArgumentException("This is not an int");
+            }
+        }
+
         else if(petType == 'd' || petType == 'D')
         {
-            System.out.println(prompt);
+            System.out.println("Is "+Name+" Friendly?(Y/N)");
             input = kb.nextLine();
             input.charAt(0);
             if(input.charAt(0) == 'y' || input.charAt(0) == 'Y')
